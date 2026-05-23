@@ -136,10 +136,10 @@ notes (id, project_id, content, created_at)
 
 ```
 ┌─────────────────────────────────────────────────────┐
-│  🎮 BMO Builder              [Project ▾]  [Calendar] │
+│  🎮 BMO Builder            [Project ▾]  [Calendar]  │
 ├──────────────────┬──────────────────────────────────┤
 │                  │                                  │
-│  BMO AVATAR      │   Chat window                   │
+│  BMO AVATAR      │   Chat window                    │
 │  [mood state]    │                                  │
 │                  │   [BMO response + code]          │
 │  TODAY           │   [Streaming tokens...]          │
