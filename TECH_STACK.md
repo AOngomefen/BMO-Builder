@@ -157,6 +157,9 @@ notes (id, project_id, content, created_at)
 │  [+ Add task]    │                                  │
 └──────────────────┴──────────────────────────────────┘
 ```
+```
+[open source - bmo expressions] https://www.figma.com/design/ZVywdnjp2yzqib8Za2xd58/BMO-Face-Templates-Assets--Community-?node-id=47-107&t=Qe4Xoai6EUsuPnS9-1
+```
 
 ---
 
