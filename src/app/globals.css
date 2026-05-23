@@ -1,0 +1,49 @@
+@import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #faf8f5;
+  --foreground: #1a3a32;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: "Outfit", system-ui, sans-serif;
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #78bca840;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #78bca880;
+}
+
+/* Code blocks */
+pre {
+  font-family: "JetBrains Mono", monospace;
+}
+
+code {
+  font-family: "JetBrains Mono", monospace;
+}
+
+/* Selection color */
+::selection {
+  background: #78bca840;
+  color: #1a3a32;
+}
