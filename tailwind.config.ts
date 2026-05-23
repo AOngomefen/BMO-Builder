@@ -11,8 +11,11 @@ const config: Config = {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
-        "bmo-green": "#78BCA8",
-        "bmo-teal": "#5A9A88",
+        "bmo-face": "#d9ffea",
+        "bmo-body": "#63bda4",
+        "bmo-limb": "#62afb7",
+        "bmo-green": "#63bda4",
+        "bmo-teal": "#62afb7",
         "bmo-dark": "#1a3a32",
         "bmo-cream": "#FAF8F5",
         "bmo-amber": "#E8A838",

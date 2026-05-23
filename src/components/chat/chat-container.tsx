@@ -11,6 +11,7 @@ import { useProjectStore } from "@/store/project-store";
 import { TaskPriority } from "@/lib/types";
 import { motion } from "framer-motion";
 import BmoAvatar from "@/components/bmo-avatar";
+import { computeTaskBasedMood } from "@/lib/bmo-mood-engine";
 
 function getTextContent(parts: Array<{ type: string; text?: string }>): string {
   return parts
@@ -35,6 +36,7 @@ export default function ChatContainer() {
   const { getActiveProject } = useProjectStore();
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const [processedIds, setProcessedIds] = useState<Set<string>>(new Set());
+  const prevDoneCountRef = useRef(0);
 
   const transport = new DefaultChatTransport({
     api: "/api/chat",
@@ -47,9 +49,12 @@ export default function ChatContainer() {
   const { messages, status, sendMessage } = useChat({
     transport,
     onError: () => {
-      setMood("error");
+      setMood("talking-sad");
       setStreaming(false);
-      setTimeout(() => setMood("idle"), 3000);
+      setTimeout(() => {
+        const mood = computeTaskBasedMood({ tasks, previousDoneCount: prevDoneCountRef.current });
+        setMood(mood);
+      }, 3000);
     },
   });
 
@@ -57,27 +62,45 @@ export default function ChatContainer() {
 
   useEffect(() => {
     if (status === "streaming") {
-      setMood("thinking");
+      setMood("talking-happy");
       setStreaming(true);
     } else if (status === "ready") {
       setStreaming(false);
       const lastMsg = messages[messages.length - 1];
       if (lastMsg && lastMsg.role === "assistant" && !processedIds.has(lastMsg.id)) {
-        setMood("success");
-        setTimeout(() => setMood("idle"), 2000);
+        setMood("content");
         const text = getTextContent(lastMsg.parts);
         const aiTasks = extractBmoTasks(text);
         if (aiTasks && aiTasks.length > 0) {
           addTasksFromAI(aiTasks);
         }
         setProcessedIds((prev) => new Set(prev).add(lastMsg.id));
+
+        setTimeout(() => {
+          const doneCount = tasks.filter((t) => t.status === "done").length;
+          const mood = computeTaskBasedMood({ tasks, previousDoneCount: prevDoneCountRef.current });
+          prevDoneCountRef.current = doneCount;
+          setMood(mood);
+        }, 2000);
       }
     }
-  }, [status, messages, processedIds, setMood, setStreaming, addTasksFromAI]);
+  }, [status, messages, processedIds, setMood, setStreaming, addTasksFromAI, tasks]);
 
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
+
+  useEffect(() => {
+    const doneCount = tasks.filter((t) => t.status === "done").length;
+    const mood = computeTaskBasedMood({
+      tasks,
+      previousDoneCount: prevDoneCountRef.current,
+    });
+    prevDoneCountRef.current = doneCount;
+    if (!isActive) {
+      setMood(mood);
+    }
+  }, [tasks, isActive, setMood]);
 
   const handleSend = useCallback(
     (text: string) => {
@@ -98,7 +121,7 @@ export default function ChatContainer() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5 }}
           >
-            <BmoAvatar mood="greeting" size={140} />
+            <BmoAvatar mood="baseline-quiet-happy" size={140} />
             <div className="space-y-2 max-w-md">
               <h2 className="text-2xl font-bold text-bmo-dark">
                 Hey! I&apos;m BMO!

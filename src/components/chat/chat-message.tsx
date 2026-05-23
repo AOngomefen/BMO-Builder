@@ -123,7 +123,7 @@ export default function ChatMessage({ role, content, isStreaming }: ChatMessageP
           </div>
         ) : (
           <div className="w-8 h-8">
-            <BmoAvatar mood={isStreaming ? "thinking" : "idle"} size={32} />
+            <BmoAvatar mood={isStreaming ? "talking-happy" : "baseline-quiet-happy"} size={32} />
           </div>
         )}
       </div>

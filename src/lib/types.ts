@@ -1,4 +1,16 @@
-export type BmoMood = "idle" | "thinking" | "success" | "error" | "greeting";
+export type BmoMood =
+  | "sleep"
+  | "talking-happy"
+  | "talking-sad"
+  | "talking-stressed"
+  | "content"
+  | "skeptical-stressed"
+  | "tired-happy"
+  | "annoyed-skeptical"
+  | "silly"
+  | "amazed"
+  | "talking-angry"
+  | "baseline-quiet-happy";
 
 export interface ChatMessage {
   id: string;

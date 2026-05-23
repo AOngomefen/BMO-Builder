@@ -10,7 +10,7 @@ interface ChatState {
 }
 
 export const useChatStore = create<ChatState>()((set) => ({
-  mood: "greeting",
+  mood: "baseline-quiet-happy",
   isStreaming: false,
   sessionStarted: Date.now(),
 
